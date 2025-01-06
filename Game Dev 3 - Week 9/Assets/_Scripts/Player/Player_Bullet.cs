@@ -16,9 +16,20 @@ namespace GameDevWithMarco.Player
                 float randomRange = Random.Range(05f, 1.5f);
                 var flashObj = ObjectPoolingPattern.Instance.GetPoolItem(ObjectPoolingPattern.TypeOfPool.MuzzleFlash);
                 flashObj.transform.localScale = new Vector3(randomRange, randomRange, randomRange);
+
+                flashObj.transform.position = collisionPoint;
+
+                var test = flashObj.GetComponent<Player_MuzzleFlash>();
+                StartCoroutine(test.ReturnToThePool());
+                StartCoroutine(DeactivateAfter());
             }
-            //Returns the game object to the available pool
-            gameObject.SetActive(false);
+
+
+            IEnumerator DeactivateAfter()
+            {
+                yield return new WaitForSeconds(1.1f);
+                gameObject.SetActive(false);
+            }
         }
     }
 }
